@@ -1,0 +1,60 @@
+﻿@model UsedYearlyPermission
+
+@{
+    ViewData["Title"] = "Yıllık İzin Sil";
+}
+
+<h3 style="color:red">Bu kaydı silmek istediğinize emin misiniz?</h3>
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.User.Name) @Html.DisplayNameFor(model => model.User.Surname)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.Name) @Html.DisplayFor(model => model.User.Surname)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WhichYears)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WhichYears)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StartingDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StartingDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ExpirationDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ExpirationDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NumberOfDay)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NumberOfDay)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-outline-danger" title="Sil"><i class="fa-solid fa-trash"></i> Sil</button>
+        <a href="/yillikizinlerim" class="btn btn-outline-secondary" title="İptal"><i class="fa-solid fa-ban"></i> İptal</a>
+    </form>
+</div>
+

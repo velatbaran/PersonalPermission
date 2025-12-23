@@ -1,0 +1,212 @@
+﻿@model IEnumerable<UsedAdministrivePermission>
+
+@{
+    ViewData["Title"] = "Tüm Personellerin Aldıkları İdari İzinler";
+}
+
+<style>
+    .table {
+        font-family: "Segoe UI", Arial, sans-serif;
+        font-size: 14px;
+        color: #333;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+        .table th {
+            background: #f0f2f5;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            padding: 10px;
+            border-bottom: 2px solid #dcdfe3;
+        }
+
+        .table td {
+            font-size: 12px;
+            padding: 8px 10px;
+            vertical-align: middle;
+        }
+
+        /* Modern input stil */
+        .table input[type="text"] {
+            width: 95%;
+            padding: 6px 10px;
+            border: 1px solid #c4c7cc;
+            border-radius: 6px;
+            font-size: 12px;
+            background: #fff;
+            transition: all .25s ease;
+        }
+
+            /* Hover input */
+            .table input[type="text"]:hover {
+                border-color: #9ba0a8;
+                background: #fafafa;
+            }
+
+            /* Focus efekti */
+            .table input[type="text"]:focus {
+                outline: none;
+                border-color: #4a90e2;
+                box-shadow: 0 0 4px rgba(74, 144, 226, 0.4);
+                background: #fff;
+            }
+
+        /* Satır hover */
+        .table tbody tr:hover {
+            background-color: #f7faff;
+        }
+
+    /* Butonlara küçük estetik dokunuş */
+    .btn-rounded {
+        border-radius: 6px !important;
+    }
+
+    /* Tablonun üst kenarına hafif gölge */
+    #myTable {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    /* ÜSTTEKİ BUTONLARI SAĞA AL */
+    div.dt-buttons {
+        float: right !important;
+        margin-bottom: 10px;
+    }
+
+    .dt-bottom {
+        display: flex !important;
+        justify-content: flex-end !important;
+        align-items: center;
+        gap: 20px;
+    }
+
+        .dt-bottom .dataTables_info,
+        .dt-bottom .dataTables_paginate {
+            float: none !important;
+            width: auto !important;
+            text-align: right !important;
+        }
+
+</style>
+<table id="myTable" class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.User.Name)  @Html.DisplayNameFor(model => model.User.Surname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WhichYears)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartingDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartingTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpirationTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+        </tr>
+        <tr>
+            <th><input type="text" placeholder="Ara Adı Soyadı" /></th>
+            <th><input type="text" placeholder="Ara Hangi Yıl" /></th>
+            <th><input type="text" placeholder="Ara İzin Tarihi" /></th>
+            <th><input type="text" placeholder="Ara Başlangıç Saati" /></th>
+            <th><input type="text" placeholder="Ara Bitiş(Dönüş) Saati" /></th>
+            <th><input type="text" placeholder="Ara Kullanılan Saat" /></th>
+            <th><input type="text" placeholder="Ara Adres" /></th>
+            <th><input type="text" placeholder="Ara Açıklama" /></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Name) @Html.DisplayFor(modelItem => item.User.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WhichYears)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartingDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartingTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExpirationTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts {
+    <script src="~/datatable/datatables.min.js"></script>
+    <script src="~/datatable/datatables.responsive.min.js"></script>
+    <script src="~/datatable/datatables.buttons.min.js"></script>
+    <script src="~/datatable/buttons.html5.min.js"></script>
+    <script src="~/datatable/buttons.print.min.js"></script>
+    <script src="~/datatable/jszip.min.js"></script>
+    <script src="~/datatable/pdfmake.min.js"></script>
+    <script src="~/datatable/vfs_fonts.js"></script>
+    <script>
+        $(document).ready(function () {
+
+        var table = $('#myTable').DataTable({
+            dom:
+                "<'dt-top'B>" +
+                "<'dt-table'rt>" +
+                "<'dt-bottom'ip>",
+            buttons: ['copy', 'excel', 'csv', 'pdf', 'print'],
+            order: [[1, 'asc']],
+            language: { url: '/datatable/tr.json' }
+        });
+
+
+            // Kolon bazlı filtreleme
+            $('#myTable thead tr:eq(1) th').each(function (i) {
+                $('input', this).on('keyup change clear', function () {
+                    var value = this.value;
+
+                    if (table.column(i).search() !== value) {
+                        table.column(i).search(value).draw();
+
+                    }
+                });
+            });
+        });
+               setTimeout(function () {
+            $('.dataTables_info, .dataTables_paginate')
+                .wrapAll('<div class="dt-force-right"></div>');
+
+            $('.dt-force-right').css({
+                'display': 'flex',
+                'justify-content': 'flex-end',
+                'gap': '20px'
+            });
+        }, 0);
+
+
+    </script>
+}

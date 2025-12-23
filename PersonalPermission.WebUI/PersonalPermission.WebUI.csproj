@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\AdminLTE\**" />
+    <Compile Remove="wwwroot\modernize\**" />
+    <Content Remove="wwwroot\AdminLTE\**" />
+    <Content Remove="wwwroot\modernize\**" />
+    <EmbeddedResource Remove="wwwroot\AdminLTE\**" />
+    <EmbeddedResource Remove="wwwroot\modernize\**" />
+    <None Remove="wwwroot\AdminLTE\**" />
+    <None Remove="wwwroot\modernize\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\ForgetPasswordViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.15" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.15">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.15" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.15">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+    <PackageReference Include="NToastNotify" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PersonalPermission.Core\PersonalPermission.Core.csproj" />
+    <ProjectReference Include="..\PersonalPermission.Service\PersonalPermission.Service.csproj" />
+  </ItemGroup>
+
+</Project>

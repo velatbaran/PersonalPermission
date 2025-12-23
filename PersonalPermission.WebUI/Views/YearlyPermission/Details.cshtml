@@ -1,0 +1,63 @@
+﻿@model UsedYearlyPermission
+
+@{
+    ViewData["Title"] = "Yıllık İzin Detay";
+}
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.User.Name) @Html.DisplayNameFor(model => model.User.Surname)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.Name) @Html.DisplayFor(model => model.User.Surname)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WhichYears)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WhichYears)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StartingDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StartingDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ExpirationDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ExpirationDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NumberOfDay)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NumberOfDay)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (Model.ExpirationDate.Date < DateTime.Now.Date)
+    {
+        <a class="btn btn-outline-warning disabled" asp-action="Edit" asp-route-id="@Model.Id" title="Güncelle"><i class="fa-solid fa-pen-to-square"></i> Güncelle</a>
+    }
+    else
+    {
+        <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@Model.Id" title="Güncelle"><i class="fa-solid fa-pen-to-square"></i> Güncelle</a>
+    }
+    <a href="/yillikizinlerim" class="btn btn-outline-secondary" title="İptal"><i class="fa-solid fa-ban"></i> İptal</a>
+</div>

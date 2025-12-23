@@ -1,0 +1,344 @@
+﻿@using PersonalPermission.WebUI.Extensions
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Personel İzin Takip - @ViewData["Title"]</title>
+
+    <!-- CSS -->
+    <link href="~/lib/fontawesome/css/fontawesome.min.css" rel="stylesheet" />
+    <link href="~/lib/fontawesome/css/all.min.css" rel="stylesheet" />
+    <link href="/admin/css/sb-admin-2.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="~/admin/img/dsi24.png" />
+<style>
+        /* =====================================================
+           SIDEBAR BASE (SB ADMIN 2)
+        ===================================================== */
+        #accordionSidebar {
+            width: 260px;
+            min-width: 260px;
+            max-width: 260px;
+            transition: width .25s ease;
+            overflow-x: hidden;
+        }
+
+            /* Menü linkleri */
+            #accordionSidebar .nav-link {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                white-space: nowrap;
+            }
+
+                /* ICON – ASLA KAYBOLMAZ */
+                #accordionSidebar .nav-link i {
+                    width: 24px;
+                    min-width: 24px;
+                    font-size: 16px;
+                    text-align: center;
+                    flex-shrink: 0;
+                }
+
+                /* Yazı taşması yok */
+                #accordionSidebar .nav-link span,
+                #accordionSidebar .collapse-item {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+        /* =====================================================
+           SB ADMIN COLLAPSED (TOPBAR TOGGLE)
+        ===================================================== */
+        body.sidebar-toggled #accordionSidebar {
+            width: 80px;
+            min-width: 80px;
+            overflow: visible;
+        }
+
+            /* Yazıları gizle */
+            body.sidebar-toggled #accordionSidebar .nav-link span,
+            body.sidebar-toggled #accordionSidebar .sidebar-heading,
+            body.sidebar-toggled #accordionSidebar .sidebar-brand-text {
+                display: none !important;
+            }
+
+            /* ICON ORTALA */
+            body.sidebar-toggled #accordionSidebar .nav-link {
+                justify-content: center;
+                padding: 12px 0;
+            }
+
+                /* ICON FORCE */
+                body.sidebar-toggled #accordionSidebar .nav-link i {
+                    font-size: 18px;
+                    width: 24px;
+                    min-width: 24px;
+                    display: inline-flex;
+                    justify-content: center;
+                }
+
+            /* =====================================================
+           SUBMENU (CLICK – BOOTSTRAP COLLAPSE)
+        ===================================================== */
+            body.sidebar-toggled #accordionSidebar .collapse {
+                position: absolute;
+                left: 80px;
+                top: 0;
+                width: 260px;
+                background: #fff;
+                border-radius: 6px;
+                box-shadow: 0 10px 25px rgba(0,0,0,.25);
+                z-index: 9999;
+            }
+
+            /* İç alan */
+            body.sidebar-toggled #accordionSidebar .collapse-inner {
+                max-height: 70vh;
+                overflow-y: auto;
+                padding: 6px 0; 
+            }
+
+            /* Alt menü */
+            body.sidebar-toggled #accordionSidebar .collapse-item {
+                padding: 8px 18px;
+                font-size: 13px;
+            }
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+        @@media (max-width: 991.98px) {
+            body .sidebar-toggled #accordionSidebar
+
+        {
+            width: 260px;
+            min-width: 260px;
+        }
+
+        body.sidebar-toggled #accordionSidebar .nav-link span {
+            display: inline !important;
+        }
+
+        body.sidebar-toggled #accordionSidebar .collapse {
+            position: static;
+            width: 100%;
+            box-shadow: none;
+        }
+
+        }
+    </style>
+</head>
+<body id="page-top">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="anasayfa">
+                <div class="sidebar-brand-text mx-3">Personel İzin Takip<sup>@DateTime.Now.Year</sup></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link" href="/anasayfa" title="Anasayfa">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Anasayfa</span>
+                </a>
+            </li>
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">Kullanıcı İşlemleri</div>
+            @if (User.IsAdmin())
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                       aria-expanded="true" aria-controls="collapseTwo" title="Kullanıcılar">
+                        <i class="fa-solid fa-users-gear"></i>
+                        <span>Kullanıcılar</span>
+                    </a>
+                    <div id="collapseTwo" class="collapse" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            @* <a class="collapse-item" href="/Users/Index">Tüm Kullanıcılar</a> *@
+                            <a class="collapse-item" href="/kullanicilar" title="Tüm Kullanıcılar">Tüm Kullanıcılar</a>
+                            <hr class="sidebar-divider">
+                            @* <a class="collapse-item" href="/Users/Create">Kullanıcı Ekle</a> *@
+                            <a class="collapse-item" href="/kullaniciekle" title="Kullanıcı Ekle">Kullanıcı Ekle</a>
+                        </div>
+                    </div>
+                </li>
+            }
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                   aria-expanded="true" aria-controls="collapseUtilities" title="İzinler">
+                    <i class="fa-solid fa-sliders"></i>
+                    <span>İzinler</span>
+                </a>
+                <div id="collapseUtilities" class="collapse" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        @* <a class="collapse-item" href="/PermissionStates/Index">İzin Durumum</a> *@
+                        <a class="collapse-item" href="/izindurumum" title="İzin Durumum">İzin Durumum</a>
+                        <hr class="sidebar-divider">
+                        @* <a class="collapse-item" href="/YearlyPermission/Index">Yıllık İzinlerim</a> *@
+                        <a class="collapse-item" href="/yillikizinlerim" title="Yıllık İzinlerim">Yıllık İzinlerim</a>
+                        <hr class="sidebar-divider">
+                        @* <a class="collapse-item" href="/AdministrativePermission/Index">Alınan İdari İzinlerim</a> *@
+                        <a class="collapse-item" href="/idariizinlerim" title="İdari İzinlerim">İdari İzinlerim</a>
+                        <hr class="sidebar-divider mt-2">
+                        @* <a class="collapse-item" href="/YearlyPermission/Create">Yıllık İzin Ekle</a> *@
+                        <a class="collapse-item" href="/yillikizinekle" title="Yıllık İzin Ekle">Yıllık İzin Ekle</a>
+                        <hr class="sidebar-divider">
+                        @* <a class="collapse-item" href="/AdministrativePermission/Create">İdari İzin Ekle</a> *@
+                        <a class="collapse-item" href="/idariizinekle" title="İdari İzin Ekle">İdari İzin Ekle</a>
+                        @if (User.IsAdmin())
+                        {
+                            <hr class="sidebar-divider">
+                            @* <a class="collapse-item" href="/PermissionStates/Index2">Tüm Personellerin İzin Durumu</a> *@
+                            @* <a class="collapse-item" href="/PermissionStates/Index2">Tüm Personellerin İzin Durumu</a> *@
+                            <a class="collapse-item" href="/tumpersonellerinizindurumu" title="Tüm Personellerin İzin Durumu">Tüm Personellerin İzin Durumu</a>
+                            <hr class="sidebar-divider">
+                            @* <a class="collapse-item" href="/PermissionStates/Index3">Tüm Yıllık İzinler</a> *@
+                            <a class="collapse-item" href="/tumpersonellerinyıllıkizinleri" title="Tüm Personellerin Yıllık İzinler">Tüm Personellerin Yıllık İzinler</a>
+                            <hr class="sidebar-divider">
+                            <a class="collapse-item" href="/tumpersonellerinidariizinleri" title="Tüm Personellerin İdari İzinler">Tüm Personellerin İdari İzinler</a>
+                        }
+                    </div>
+                </div>
+            </li>
+            <hr class="sidebar-divider">
+        </ul>
+        <!-- End Sidebar -->
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 shadow" style="background-color:#4e73df">
+                    <!-- Sidebar Toggle Button (desktop) -->
+                    <button id="sidebarToggle" class="btn btn-link rounded-circle mr-3">
+                        <i class="fas fa-bars"></i>
+                    </button>
+
+                    <ul class="navbar-nav ml-auto">
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-black small text-center">@User.FullName()<br />@User.Title()</span>
+                                <img src="~/admin/img/user.png" width="45" height="45" />
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                @* <a class="dropdown-item" href="/Account/ChangePassword"> *@
+                                <a class="dropdown-item" href="/sifredegistir" title="Şifremi Değiştir">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Şifremi Değiştir
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal" title="Çıkış">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Çıkış
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Page Content -->
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <h2 class="mt-2 mb-4 text-center">@ViewData["Title"]</h2>
+                            <hr />
+                            @RenderBody()
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto text-center">
+                    <h6>DSİ 24. Bölge Müdürlüğü &copy; Personel İzin Takip <strong>@DateTime.Now.Year</strong></h6>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Scroll Top -->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ayrılmaya Hazır mısın?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span>×</span></button>
+                </div>
+                <div class="modal-body">Oturumunuzu sonlandırmak için "Çıkış"ı seçiniz.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal" title="İptal">İptal</button>
+                    @* <a class="btn btn-primary" href="/Account/LogOut">Çıkış</a>  *@
+                    <a class="btn btn-primary" href="/cikis" title="Çıkış">Çıkış</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/admin/js/sb-admin-2.min.js"></script>
+    @await Component.InvokeAsync("NToastNotify")
+    <script>
+        $(document).ready(function () {
+
+            const sidebar = $('#accordionSidebar');
+            const currentUrl = window.location.pathname.toLowerCase();
+
+            /* =====================================================
+               COLLAPSED MODE → CLICK SUBMENU
+               (SB ADMIN 2 uses body.sidebar-toggled)
+            ===================================================== */
+            sidebar.find('.nav-link[data-toggle="collapse"]').on('click', function (e) {
+
+                if ($('body').hasClass('sidebar-toggled')) {
+
+                    e.preventDefault();
+ 
+                    const parent = $(this).closest('.nav-item');
+
+                    // Diğer açık menüleri kapat
+                    sidebar.find('.nav-item.show').not(parent).removeClass('show');
+
+                    // Tıklananı aç / kapat
+                    parent.toggleClass('show');
+                }
+            });
+
+            /* =====================================================
+               ACTIVE PAGE → AUTO OPEN MENU
+            ===================================================== */
+            sidebar.find('.collapse-item').each(function () {
+
+                const href = $(this).attr('href');
+                if (!href) return;
+
+                if (currentUrl.includes(href.toLowerCase())) {
+
+                    const navItem = $(this).closest('.nav-item');
+
+                    navItem.addClass('active show');
+                    navItem.find('.collapse').addClass('show');
+                }
+            });
+
+        });
+    </script>
+
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
