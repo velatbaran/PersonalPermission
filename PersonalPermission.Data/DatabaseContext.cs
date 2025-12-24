@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PersonalPermission.Core;
 using PersonalPermission.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,11 @@ namespace PersonalPermission.Data
 {
     public class DatabaseContext : DbContext
     {
-        public DatabaseContext(DbContextOptions options) : base(options) { }
+        private readonly ICurrentUserService _currentUserService;
+        public DatabaseContext(DbContextOptions options, ICurrentUserService currentUserService) : base(options)
+        {
+            _currentUserService = currentUserService;
+        }
 
         public DbSet<User> Users { get; set; }
         public DbSet<UsedAdministrivePermission> UsedAdministrivePermissions { get; set; }
@@ -82,7 +87,7 @@ namespace PersonalPermission.Data
                 {
                     TableName = entry.Metadata.GetTableName(),
                     ChangedAt = DateTime.UtcNow,
-                    UserName = "system", // burada o anki kullanıcıyı inject edebilirsin
+                    UserName = _currentUserService.Username, // burada o anki kullanıcıyı inject edebilirsin
                     Action = entry.State.ToString()
                 };
 
