@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using NToastNotify;
+using PersonalPermission.Core;
 using PersonalPermission.Data;
 using PersonalPermission.Service.Concrete;
 using PersonalPermission.Service.IService;
+using PersonalPermission.WebUI.Service;
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -63,6 +65,9 @@ builder.Services.AddScoped<ICalculatingPermision, CalculatingPermision>();
 builder.Services.AddHostedService<PermissionTimerBackgorundService>();
 builder.Services.AddScoped<ICalculatingServiceTime, CalculatingServiceTime>();
 builder.Services.AddHostedService<ServiceTimerBackgroundService>();
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
 builder.Services.AddControllersWithViews()
     .AddNToastNotifyToastr(new ToastrOptions()

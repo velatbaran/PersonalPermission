@@ -20,37 +20,43 @@ namespace PersonalPermission.Service.Concrete
         public void UpdateServiceTime()
         {
             var users = _serviceUser.GetAll();
+            DateTime today = DateTime.Today;
+
             foreach (var user in users)
             {
-                DateTime? today = null;
-               // DateTime today2 = new DateTime(2025,12,19);
-                DateTime nowDate = today ?? DateTime.Now;
-              //  DateTime nowDate = today ?? today2;
-                int year = nowDate.Year - user.StartingWorkDate.Year;
-                int month = nowDate.Month - user.StartingWorkDate.Month;
-                int day = nowDate.Day - user.StartingWorkDate.Day;
+                DateTime start = user.StartingWorkDate;
 
-                if (day < 0)
+                int years = today.Year - start.Year;
+                int months = today.Month - start.Month;
+                int days = today.Day - start.Day;
+
+                // Gün negatif ise bir ay geri git
+                if (days < 0)
                 {
-                    month--;
-                    day += DateTime.DaysInMonth(nowDate.Year, (nowDate.Month == 1 ? 12 : nowDate.Month - 1));
+                    months--;
+
+                    var previousMonth = today.AddMonths(-1);
+                    days += DateTime.DaysInMonth(previousMonth.Year, previousMonth.Month);
                 }
 
-                if (month < 0)
+                // Ay negatif ise bir yıl geri git
+                if (months < 0)
                 {
-                    year--;
-                    month += 12;
+                    years--;
+                    months += 12;
                 }
 
-                user.ServiceTimeYear = year;
-                user.ServiceTimeMonth = month;
-                user.ServiceTimeDay = day;
+                user.ServiceTimeYear = years;
+                user.ServiceTimeMonth = months;
+                user.ServiceTimeDay = days;
 
                 _serviceUser.Update(user);
-                _serviceUser.SaveChanges();
-
             }
+
+            _serviceUser.SaveChanges();
+
         }
+    }
 
         //public (int Year, int Month, int Day) CalculatingServiceTime(DateTime StartingWorkDate, DateTime? today = null)
         //{
@@ -76,5 +82,4 @@ namespace PersonalPermission.Service.Concrete
 
         //    return (year, month, day);
         //}
-    }
 }

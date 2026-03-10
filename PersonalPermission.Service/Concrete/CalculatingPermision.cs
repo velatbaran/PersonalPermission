@@ -40,22 +40,22 @@ namespace PersonalPermission.Service.Concrete
                     if (_userPermissionState != null && _userPermissionState.WhichYears != DateTime.Now.Year)
                     {
                         // ToDo List : service time year controlling (< 1)
-                        if ((DateTime.Now.Month == 01 && DateTime.Now.Day == 01))
+                        if ((DateTime.Now.Month == 01 && DateTime.Now.Day == 02 && user.ServiceTimeYear >=1 ))
                         {
                             //if (user.ServiceTimeYear < 1)
                             //{
                             //    gainedYearlyPermission = 0;
                             //    gainedAdministrativePermission = 40;
                             //}
-                            if (user.ServiceTimeYear >= 1 || user.ServiceTimeYear < 10)
+                            if (user.ServiceTimeYear >= 1 && user.ServiceTimeYear < 10)
                             {
                                 gainedYearlyPermission = 20;
-                                gainedAdministrativePermission = 40;
+                         //       gainedAdministrativePermission = 40;
                             }
                             else if (user.ServiceTimeYear >= 10)
                             {
                                 gainedYearlyPermission = 30;
-                                gainedAdministrativePermission = 40;
+                            //    gainedAdministrativePermission = 40;
                             }
 
                             PermissionState permissionState = new PermissionState()
@@ -74,6 +74,7 @@ namespace PersonalPermission.Service.Concrete
                                 //  AddedDate = today2,
                                 AddedDate = DateTime.Now,
                             };
+                            gainedYearlyPermission = 0;
                             _servicePermissionState.Add(permissionState);
                             _servicePermissionState.SaveChanges();
 
@@ -91,7 +92,7 @@ namespace PersonalPermission.Service.Concrete
                         if (_userPermissionState.User.ServiceTimeYear == 1 && _userPermissionState.User.StartingWorkDate.Month == DateTime.Now.Month && _userPermissionState.User.StartingWorkDate.Day == DateTime.Now.Day)
                         {
                             gainedYearlyPermission = 20;
-                            gainedAdministrativePermission = 40;
+                        //    gainedAdministrativePermission = 40;
 
                             PermissionState permissionState = new PermissionState()
                             {
@@ -109,6 +110,7 @@ namespace PersonalPermission.Service.Concrete
                                 AddedDate = DateTime.Now,
                                 //  AddedDate = today2,
                             };
+                            gainedYearlyPermission = 0;
                             _servicePermissionState.Add(permissionState);
                             _servicePermissionState.SaveChanges();
                         }
@@ -124,7 +126,7 @@ namespace PersonalPermission.Service.Concrete
                     if (_userPermissionState != null && _userPermissionState.WhichYears != DateTime.Now.Year)
                     {
                         // ToDo List : service time year controlling (< 1)
-                        if ((DateTime.Now.Month == 01 && DateTime.Now.Day == 01))
+                        if ((DateTime.Now.Month == 01 && DateTime.Now.Day == 02 && user.ServiceTimeYear >= 1))
                         {
                             //if (user.ServiceTimeYear < 1)
                             //{
@@ -137,12 +139,12 @@ namespace PersonalPermission.Service.Concrete
                                 gainedYearlyPermission = 18;
                                 //     gainedAdministrativePermission = 0;
                             }
-                            if (user.ServiceTimeYear >= 5 && user.ServiceTimeYear < 5)
+                            else if (user.ServiceTimeYear >= 5 && user.ServiceTimeYear < 10)
                             {
                                 gainedYearlyPermission = 25;
                                 //  gainedAdministrativePermission = 0;
                             }
-                            if (user.ServiceTimeYear >= 10)
+                           else if (user.ServiceTimeYear >= 10)
                             {
                                 gainedYearlyPermission = 30;
                                 //  gainedAdministrativePermission = 0;
@@ -164,6 +166,7 @@ namespace PersonalPermission.Service.Concrete
                                 //  AddedDate = today2,
                                 AddedDate = DateTime.Now,
                             };
+                            gainedYearlyPermission = 0;
                             _servicePermissionState.Add(permissionState);
                             _servicePermissionState.SaveChanges();
 
@@ -199,6 +202,7 @@ namespace PersonalPermission.Service.Concrete
                                 AddedDate = DateTime.Now,
                                 //  AddedDate = today2,
                             };
+                            gainedYearlyPermission = 0;
                             _servicePermissionState.Add(permissionState);
                             _servicePermissionState.SaveChanges();
                         }
