@@ -33,6 +33,7 @@ namespace PersonalPermission.Core.Entities
         public int? DepartmentId { get; set; }
 
         [DisplayName("İşe Giriş Tarihi"), Required(ErrorMessage = "{0} alanı boş geçilemez")]
+        //[DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = false)]
         public DateTime StartingWorkDate { get; set; }
 
         [DisplayName("Hizmet Yılı")]

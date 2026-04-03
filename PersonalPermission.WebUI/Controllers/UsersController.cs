@@ -300,11 +300,13 @@ namespace PersonalPermission.WebUI.Controllers
             {
                 return NotFound();
             }
+
             if (await _serviceUsedYearlyPermission.AnyAsync(x => x.UserId == user.Id))
             {
-                _toastNotification.AddWarningToastMessage("Daha önce yıllık izin işlemi yapıldığı için güncelleme yapılamaz. ", new ToastrOptions { Title = "Uyarı" });
-                return View(user);
+                _toastNotification.AddWarningToastMessage("Daha önce yıllık izin işlemi yapıldığı için başlama tarihi güncellenemez. ", new ToastrOptions { Title = "Uyarı" });
+                ViewData["Update"] = "Daha önce yıllık izin işlemi yapıldığı için başlama tarihi güncellenemez.";
             }
+
             User __user = await _serviceUser.GetQueryable().Include(x => x.Department).Include(x => x.Title).Where(x => x.UserGuid.ToString() == HttpContext.User.FindFirst("UserGuid").Value.ToString()).FirstOrDefaultAsync();
             if (__user.Department.Name == "BİLGİ TEKNOLOJİLERİ ŞUBE MÜDÜRLÜĞÜ")
                 ViewData["DepartmentId"] = new SelectList(_serviceDepartment.GetAll(), "Id", "Name");
@@ -338,6 +340,22 @@ namespace PersonalPermission.WebUI.Controllers
                 try
                 {
                     var _user = await _serviceUser.FindAsync(id);
+
+                    if (_user.StartingWorkDate == user.StartingWorkDate)
+                    {
+                        _user.Name = user.Name;
+                        _user.Surname = user.Surname;
+                        _user.Username = user.Username;
+                        _user.RegistryNo = user.RegistryNo;
+                        _user.TitleId = user.TitleId;
+                        _user.DepartmentId = user.DepartmentId;
+                        _user.Password = user.Password;
+                        _user.IsAdmin = user.IsAdmin;
+
+                        _serviceUser.Update(_user);
+                        await _serviceUser.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
+                    }
 
                     int gainedYearlyPermission = 0;
                     //  int gainedAdministrativePermission = 0;
